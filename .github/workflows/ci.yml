@@ -17,16 +17,16 @@ jobs:
       fail-fast: false
       matrix:
         tag:
-          - latest
-          - edge
-          - 3.20.3
-          - 3.20
-          - 3.19.4
-          - 3.19
-          - 3.18.9
-          - 3.18
-          - 3.17.10
-          - 3.17
+          - 'latest'
+          - 'edge'
+          - '3.20.3'
+          - '3.20'
+          - '3.19.4'
+          - '3.19'
+          - '3.18.9'
+          - '3.18'
+          - '3.17.10'
+          - '3.17'
     name: Alpine
     steps:
       - name: Login to GitHub Container Registry
@@ -43,8 +43,8 @@ jobs:
           context: "{{defaultContext}}:alpine"
           push: true
           tags: ghcr.io/${{ github.repository }}/alpine:${{ matrix.tag }}
-          build-args:
-            TAG: ${{ matrix.tag }}
+          build-args: |
+            TAG=${{ matrix.tag }}
 
       - name: Build container image
         if: github.ref != 'refs/heads/main'
@@ -53,5 +53,5 @@ jobs:
           context: "{{defaultContext}}:alpine"
           push: true
           tags: ghcr.io/${{ github.repository }}/alpine:${{ github.head_ref }}-${{ matrix.tag }}
-          build-args:
-            TAG: ${{ matrix.tag }}
+          build-args: |
+            TAG=${{ matrix.tag }}
